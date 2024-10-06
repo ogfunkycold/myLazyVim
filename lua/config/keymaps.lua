@@ -67,6 +67,7 @@ map("i", ";", ";<c-g>u")
 
 -- save file
 map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
+map("n", "WW", ":w!<enter>")
 
 --keywordprg
 map("n", "<leader>K", "<cmd>norm! K<cr>", { desc = "Keywordprg" })
@@ -147,8 +148,6 @@ map("n", "<leader>gL", function()
   LazyVim.lazygit({ args = { "log" } })
 end, { desc = "Lazygit Log (cwd)" })
 
--- quit
-map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
 
 -- highlights under cursor
 map("n", "<leader>ui", vim.show_pos, { desc = "Inspect Pos" })
@@ -262,5 +261,32 @@ vim.api.nvim_create_autocmd('ColorScheme', {
   end,
 })
 
+-- NOTE: Exit insert mode
+map('i', 'jj', '<Esc>')
+map('i', 'jk', '<ESC>')
+
+-- NOTE: General keymaps
+map('n', '<leader>wq', ':wq<CR>') -- save and quit
+map('n', '<leader>ww', ':w<CR>') -- save
+-- quit
+map("n", "<leader>qq", "<cmd>qa<cr>", { desc = "Quit All" })
+map('n', 'QQ', ':q!<enter>')
+
+-- map('n', 'ss', ':noh<CR>')
+map('n', 'E', '$')
+map('n', 'B', '^')
+
+-- map('n', 'gx', ':!open <c-r><c-a><CR>') -- open URL under cursor
+
+-- NOTE: Vertical scroll and center
+map('n', '<C-f>', '<C-d>zz') -- forward
+map('n', '<C-b>', '<C-u>zz') -- backward 
+
+-- NOTE: Find and center
+map('n', 'n', 'nzzzv')
+map('n', 'N', 'Nzzzv')
+--
+-- Keep last yanked when pasting
+map('v', 'p', '"_dP', opts)
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
