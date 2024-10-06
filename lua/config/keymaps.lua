@@ -195,9 +195,6 @@ local opts = { noremap = true, silent = true }
 -- Delete a word backwards
 keymap.set("n", "dw", 'vb"_d')
 
--- Select all
-keymap.set("n", "<C-a>", "gg<S-v>G")
-
 -- NOTE: change background color
 keymap.set('n', '<leader>bg', function()
   local cat = require 'catppuccin'
@@ -288,5 +285,32 @@ map('n', 'N', 'Nzzzv')
 --
 -- Keep last yanked when pasting
 map('v', 'p', '"_dP', opts)
+-- 
+-- WARN: Replaces the word I'm currently on, opens a terminal so that I start typing the new word
+-- It replaces the word globally across the entire file
+vim.keymap.set('n', '<leader>su', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "[P]Replace word I'm currently on GLOBALLY" })
+
+-- WARN: Replaces the current word with the same word in uppercase, globally
+vim.keymap.set(
+  'n',
+  '<leader>sU',
+  [[:%s/\<<C-r><C-w>\>/<C-r>=toupper(expand('<cword>'))<CR>/gI<Left><Left><Left>]],
+  { desc = "[P]GLOBALLY replace word I'm on with UPPERCASE" }
+)
+
+-- WARN: Replaces the current word with the same word in lowercase, globally
+vim.keymap.set(
+  'n',
+  '<leader>sL',
+  [[:%s/\<<C-r><C-w>\>/<C-r>=tolower(expand('<cword>'))<CR>/gI<Left><Left><Left>]],
+  { desc = "[P]GLOBALLY replace word I'm on with lowercase" }
+)
+-- NOTE: delete single character without copying into register
+map('n', 'x', '"_x')
+
+-- NOTE: yank to clipboard
+map({ 'n', 'v' }, '<leader>y', [["+y]])
+
+--
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
